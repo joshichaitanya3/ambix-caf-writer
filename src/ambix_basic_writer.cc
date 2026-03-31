@@ -8,7 +8,7 @@
 AmbixBasicWriter::AmbixBasicWriter(const std::string& input_filename) {
 
     if (!audio_file.load(input_filename)) {
-        std::cerr << "Could not load WAV file!" << std::endl;
+        throw std::runtime_error("Could not load WAV file: " + input_filename);
 
     }
 
@@ -52,6 +52,10 @@ bool AmbixBasicWriter::WriteToCAF(const std::string& output_filename, double azi
 
     std::ofstream output_file;
     output_file.open(output_filename, std::ios::binary | std::ios::out);
+
+    if (!output_file.is_open()) {
+        throw std::runtime_error("Could not open output file: " + output_filename);
+    }
 
     WriteFileHeader(output_file);
     
