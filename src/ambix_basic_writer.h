@@ -39,4 +39,5 @@ class AmbixBasicWriter : CAFWriter {
         
 };
 
-#endif // AMBIX_CAF_WRITER_CAF_WRITER_FROM_AUDIO_FILE_H_
+#endif // AMBIX_CAF_WRITER_AMBIX_BASIC_WRITER_H_
+

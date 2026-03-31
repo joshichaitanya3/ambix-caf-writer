@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
     double azimuth = 0.0;
     double elevation = 0.0;
     int ambisonic_max_degree = 1;
-    bool verbose = false;
     std::string output_filename;
 
     app.add_option("-i,--input", input_filename, "Input mono audio file path")->required();

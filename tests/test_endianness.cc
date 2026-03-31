@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <bit>
 #include "../src/big_endian.h"
 

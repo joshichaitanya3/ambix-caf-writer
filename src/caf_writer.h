@@ -1,13 +1,11 @@
 #ifndef AMBIX_CAF_WRITER_CAF_WRITER_H_
 #define AMBIX_CAF_WRITER_CAF_WRITER_H_
 
-#include <stdint.h>
 #include <fstream>
 
 class CAFWriter {
 protected:
 
-    // Stores 
     struct CAFFileHeader {
         uint32_t file_type;    // 'caff'
         uint16_t file_version; // 1

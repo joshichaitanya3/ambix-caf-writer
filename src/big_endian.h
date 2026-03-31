@@ -1,7 +1,6 @@
 #ifndef AMBIX_CAF_WRITER_BIG_ENDIAN_H_
 #define AMBIX_CAF_WRITER_BIG_ENDIAN_H_
 
-#include <endian.h>
 #include <cstring> // For memcpy
 #include <fstream>
 

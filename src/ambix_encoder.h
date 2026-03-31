@@ -1,7 +1,6 @@
 #ifndef AMBIX_CAF_WRITER_AMBIX_ENCODER_H_
 #define AMBIX_CAF_WRITER_AMBIX_ENCODER_H_
 
-#include <stdint.h>
 #include <cmath>
 #include <vector>
 #include <numbers>
@@ -76,12 +75,11 @@ public:
         num_channels_ = (max_degree_ + 1) * (max_degree_ + 1);
     }
     
-    int NumChannels() {
+    int NumChannels() const {
         return num_channels_;
     }
 
     /*!\brief Calculates the SN3D-normalized spherical harmonics (SH) coefficients and returns them in the ACN order
-    \param output_filename Full path to the output file, with extension .caf
     \param azimuth Horizontal angle in degrees, with 0 being front 
     \param elevation Vertical angle in degrees, with 0 being horizontal and 90 being above
     \return sh_coeffs Vector or SH coefficients in ACN order (sh_coeffs[0] corresponds to 0-th channel and so on)
