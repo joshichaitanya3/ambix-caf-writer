@@ -20,7 +20,7 @@ AmbixBasicWriter::AmbixBasicWriter(const std::string& input_filename) {
     audio_file.printSummary();
 }
 
-void AmbixBasicWriter::WriteAudioDataChunk(std::ofstream& output_file, double azimuth, double elevation) {
+void AmbixBasicWriter::WriteAudioDataChunk(std::ofstream& output_file, double azimuth, double elevation, double distance) {
     
     uint32_t name = big_endian::MakeFourCC('d', 'a', 't', 'a'); // 'data'
     big_endian::Write(output_file, name);
@@ -34,19 +34,24 @@ void AmbixBasicWriter::WriteAudioDataChunk(std::ofstream& output_file, double az
     uint32_t editCount = 0; // Initial edit count
     big_endian::Write(output_file, editCount);
 
+    if (distance < 0.0) {
+        throw std::invalid_argument("Distance must be non-negative.");
+    }
+    const float gain = 1.0f / std::max(static_cast<float>(distance), kMinDistance);
+
     float sample_value;
     std::vector<float> sh_coeffs = ambix_encoder.CalculateSphericalHarmonicsCoefficients(azimuth, elevation);
 
     for (uint64_t i = 0; i < numSamples; i++) {
         sample_value = audio_file.samples[0][i];
-        
+
         for (float coeff : sh_coeffs) { // Already in the ACN order
-            big_endian::Write(output_file, coeff * sample_value);
+            big_endian::Write(output_file, gain * coeff * sample_value);
         }
     }
 }    
 
-bool AmbixBasicWriter::WriteToCAF(const std::string& output_filename, double azimuth, double elevation, int max_degree) {
+bool AmbixBasicWriter::WriteToCAF(const std::string& output_filename, double azimuth, double elevation, double distance, int max_degree) {
         
     ambix_encoder = ambix::AmbixEncoder(max_degree);
 
@@ -79,7 +84,7 @@ bool AmbixBasicWriter::WriteToCAF(const std::string& output_filename, double azi
 
     WriteAudioDescriptionChunk(output_file);
 
-    WriteAudioDataChunk(output_file, azimuth, elevation);
+    WriteAudioDataChunk(output_file, azimuth, elevation, distance);
 
     bool success = output_file.good();
     output_file.close();

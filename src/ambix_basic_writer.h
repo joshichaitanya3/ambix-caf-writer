@@ -10,8 +10,10 @@ class AmbixBasicWriter : CAFWriter {
 
     private:
 
+    static constexpr float kMinDistance = 0.5f;
+
     AudioFile<float> audio_file;
-    
+
     ambix::AmbixEncoder ambix_encoder;
 
     /*!\brief Computes the ambisonic channels and writes it to the file
@@ -19,7 +21,7 @@ class AmbixBasicWriter : CAFWriter {
     \param azimuth Horizontal angle in degrees, with 0 being front
     \param elevation Vertical angle in degrees, with 0 being horizontal and 90 being above
     */
-    void WriteAudioDataChunk(std::ofstream&, double, double);
+    void WriteAudioDataChunk(std::ofstream&, double, double, double);
     
     public:
 
@@ -35,7 +37,7 @@ class AmbixBasicWriter : CAFWriter {
     \param elevation Vertical angle in degrees, with 0 being horizontal and 90 being above
     \param max_degree Maximum degree to encode in ambisonics
     */
-    bool WriteToCAF(const std::string& output_filename, double azimuth, double elevation, int max_degree);
+    bool WriteToCAF(const std::string& output_filename, double azimuth, double elevation, double distance, int max_degree);
         
 };
 

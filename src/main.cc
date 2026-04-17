@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
     std::string input_filename;
     double azimuth = 0.0;
     double elevation = 0.0;
+    double distance = 1.0;
     int ambisonic_max_degree = 1;
     std::string output_filename;
 
@@ -19,6 +20,7 @@ int main(int argc, char* argv[]) {
     auto* outOpt = app.add_option("-o,--output", output_filename, "Output file path");
     app.add_option("-a,--azimuth", azimuth, "Azimuth in degrees (defaults to zero)");
     app.add_option("-e,--elevation", elevation, "Elevation in degrees (defaults to zero, which is horizontal)");
+    app.add_option("-r,--distance", distance, "Distance in meters, must be positive (defaults to 1.0)");
     app.add_option("-d,--degree", ambisonic_max_degree, "Ambisonic max degree (defaults to 1)");
 
     CLI11_PARSE(app, argc, argv);
@@ -29,7 +31,7 @@ int main(int argc, char* argv[]) {
     }
     try {
         AmbixBasicWriter writer {input_filename};
-        writer.WriteToCAF(output_filename, azimuth, elevation, ambisonic_max_degree);
+        writer.WriteToCAF(output_filename, azimuth, elevation, distance, ambisonic_max_degree);
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
